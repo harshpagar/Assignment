@@ -35,7 +35,8 @@
             font-weight: bold;
         }
         #title{
-            color: aquamarine;
+            color: yellow;
+            
             
         }
     </style>
@@ -70,22 +71,29 @@
             div_data.innerHTML = "";
             let title = document.createElement("h1");
             title.innerHTML = "Title :-  " + display.Title;
-            title.style.color = "orange";
+            title.style.color = "yellow";
+            title.style.backgroundColor ="rgb(163, 209, 157)";
 
             let year = document.createElement("p");
             year.innerHTML = "Released Date  :-  " + display.Released;
             year.style.fontSize = "22px";
-            year.style.color= "blanchedalmond";
+            year.style.color= "purple";
+            year.style.backgroundColor ="rgb(163, 209, 157)";
+
 
             let ratings = document.createElement("p");
             ratings.innerHTML = "IMDB Ratings :-  " + display.imdbRating + " Stars";
             ratings.style.fontSize = "24px";
             ratings.style.color = "green";
+            ratings.style.backgroundColor ="rgb(163, 209, 157)";
+
 
             if (display.imdbRating > 8.5) {
                 let recommend = document.createElement("h1");
                 recommend.innerHTML = "Recommended to Watch";
                 recommend.style.color = "gold";
+                recommend.style.backgroundColor ="rgb(163, 209, 157)";
+
                 ratings.append(recommend);
             }
 
@@ -93,22 +101,30 @@
             genre.innerHTML = "Genre :-   " + display.Genre; 
             genre.style.fontSize = "24px";
             genre.style.color = "purple";
+            genre.style.backgroundColor ="rgb(163, 209, 157)";
+
 
             let plot = document.createElement("p");
             plot.innerHTML = "Movie Plot :-  " + display.Plot;
             plot.style.fontSize = "22px";
-            plot.style.color = "orange";
+            plot.style.color = "green";
+            plot.style.backgroundColor ="rgb(163, 209, 157)";
+
 
             let lang = document.createElement("p");
             lang.innerHTML = "Language :-  " + display.Language; 
             lang.style.fontSize = "22px";
-            lang.style.color = "limegreen";
+            lang.style.color = "black";
+            lang.style.backgroundColor ="rgb(163, 209, 157)";
+
 
             let img = document.createElement("img");
             img.src = display.Poster;
             img.style.marginTop = "50px";
             img.style.height="250px";
             img.style.width="300px";
+            img.style.backgroundColor ="rgb(163, 209, 157)";
+
 
 
             console.log("display:", display);
