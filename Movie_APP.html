@@ -1,1 +1,221 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+    <style>
+        *{
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+        }
+        #container {
+            width: 90%;
+            height: 100%;
+            margin: 100px auto;
+            background-color: rgb(161, 161, 245);
+            border-radius: 10px;
+            text-align: center;
+            padding: 15px;
+            margin-top: 1%;
+        }
+
+        #movie {
+            width: 30%;
+            line-height: 40px;
+            text-indent: 25px;
+        }
+
+        /* #btn {
+            width: 20%;
+            height: 45px;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        } */
+        #title{
+            color: yellow;
+            
+            
+        }
+        #movies{
+        height: 200px;
+        width: 406px;
+        border: 1px solid black;
+        overflow: scroll;
+        border-top: none;
+        margin-left: 35%;
+    }
+       
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1 id="title">Movie Adda</h1>
+        <input oninput="debounce(main,3000)" type="text" id ="movie" placeholder="Enter Movie Name">
+        <div id="movies"></div>
+
+        <div id="data"><br /><br /></div>
+    </div>
+  
+</body>
+
+</html>
+
+<script>
+
+var timerId;
+
+let movies_div = document.getElementById("movies");
+
+async function searchMovies(movie_name){
+    try{
+        let res = await fetch(`http://www.omdbapi.com/?apikey=d806bd70&s=${movie_name}`);
+
+        let data = await res.json(); 
+        
+        return data;
+    } catch(e) {
+        console.log("e:", e);
+    }
+}
+
+function appendMovies(movies){
+    if(movies === undefined){
+        return false;
+    }
+    movies_div.innerHTML = null;
+
+    movies.forEach(function(movie) {
+        let p = document.createElement("p")
+
+        p.innerText = movie.Title;
+
+        movies_div.append(p);
+    });
+}
+
+async function main(){
+ 
+    let name = document.getElementById("movie").value;
+    // get search movie
+    if (name.length < 3){
+        return false;
+    }
+    let res = await searchMovies(name);
+
+    let movies_data = res.Search;
+
+    appendMovies(movies_data)
+
+    console.log("res:" , res);
+}
+
+function debounce(func , delay){
+
+    if(timerId){
+        clearTimeout(timerId);
+    }
+
+
+    timerId = setTimeout(function(){
+        func();
+    },delay)
+}
+
+    var div_data = document.getElementById("data");
+   
+
+    async function searchMovie() {
+        try {
+            let movie = document.getElementById("movie").value;
+            let moviedata = await fetch(
+                `http://www.omdbapi.com/?t=${movie}&apikey=4652dbeb&type=movie`
+            );
+            let display = await moviedata.json();
+            if (display.Response == "True") { } else {
+                error();
+            }
+
+            div_data.innerHTML = "";
+            let title = document.createElement("h1");
+            title.innerHTML = "Title :-  " + display.Title;
+            title.style.color = "yellow";
+            // title.style.backgroundColor ="rgb(163, 209, 157)";
+
+            let year = document.createElement("p");
+            year.innerHTML = "Released Date  :-  " + display.Released;
+            year.style.fontSize = "22px";
+            year.style.color= "purple";
+            // year.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+            let ratings = document.createElement("p");
+            ratings.innerHTML = "IMDB Ratings :-  " + display.imdbRating + " Stars";
+            ratings.style.fontSize = "24px";
+            ratings.style.color = "green";
+            // ratings.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+            if (display.imdbRating > 8.5) {
+                let recommend = document.createElement("h1");
+                recommend.innerHTML = "Recommended to Watch";
+                recommend.style.color = "gold";
+                // recommend.style.backgroundColor ="rgb(163, 209, 157)";
+
+                ratings.append(recommend);
+            }
+
+            let genre = document.createElement("p");
+            genre.innerHTML = "Genre :-   " + display.Genre; 
+            genre.style.fontSize = "24px";
+            genre.style.color = "purple";
+            // genre.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+            let plot = document.createElement("p");
+            plot.innerHTML = "Movie Plot :-  " + display.Plot;
+            plot.style.fontSize = "22px";
+            plot.style.color = "green";
+            // plot.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+            let lang = document.createElement("p");
+            lang.innerHTML = "Language :-  " + display.Language; 
+            lang.style.fontSize = "22px";
+            lang.style.color = "black";
+            // lang.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+            let img = document.createElement("img");
+            img.src = display.Poster;
+            img.style.marginTop = "50px";
+            img.style.height="250px";
+            img.style.width="300px";
+            // img.style.backgroundColor ="rgb(163, 209, 157)";
+
+
+
+            console.log("display:", display);
+
+            div_data.append(img, title, year, ratings, genre, lang, plot);
+
+            movie = document.getElementById("movie").value = "";
+        } catch (err) {
+            function error() {
+                div_data.innerHTML = "";
+                let gif = document.createElement("img");
+                gif.src =
+                    "https://c.tenor.com/ldpxxfq73qIAAAAM/its-invalid-jon-taffer.gif";
+                gif.style.marginTop = "50px";
+                div_data.append(gif);
+            }
+            console.log("err:", error());
+        }
+    }
+
+</script>
